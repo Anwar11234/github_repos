@@ -8,12 +8,12 @@ The workflow begins with the creation of a Spark session and loading the data. S
 
 ### Project Structure
 
-- **`docker_files` Folder**:  
-  Contains a `docker-compose.yml` file to set up the following services:  
+- The **`docker-compose.yml`** file sets up the following services:  
   - A **PostgreSQL database** for storing the final data.  
   - **PgAdmin** for database management and table creation.  
   - A **Spark Jupyter Notebook** for data exploration (located in the `notebooks_folder`).  
-  Additionally, this folder includes a `Dockerfile` to containerize the final Spark script.
+ 
+- The `Dockerfile` containerizes the final Spark script.
 
 - **`JDBC_DRIVER` Folder**:  
   Contains the `.jar` file required for Spark to connect to PostgreSQL.
