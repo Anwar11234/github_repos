@@ -25,8 +25,10 @@ df_lower = df_filled_languages.withColumn('language', lower(col('language')))
 df_langs = df_lower.groupby('language').count()
 df_orgs = df_filled.filter("type = 'Organization'").groupby('username').sum('stars').withColumnRenamed("sum(stars)", "total_stars")
 
-df_relevance_scores = df_filled.selectExpr("search_term", "repo_name", "1.5 * forks + 1.32 * subscribers + 1.04 * stars as relevance_score")
+df_relevance_scores = df_filled.selectExpr("search_term", "1.5 * forks + 1.32 * subscribers + 1.04 * stars as relevance_score")
+
+df_search_terms_scores = df_relevance_scores.groupby('search_term').sum('relevance_score')
 
 write_dataframe(df_langs, db, "programmin_lang",username, password)
 write_dataframe(df_orgs, db, "organizations_stars",username, password)
-write_dataframe(df_relevance_scores, db, "search_terms_relevance",username, password)
+write_dataframe(df_search_terms_scores, db, "search_terms_relevance",username, password)

@@ -10,6 +10,5 @@ CREATE TABLE organizations_stars(
 
 CREATE TABLE search_terms_relevance(
 	search_term VARCHAR(255),
-	repo_name VARCHAR(255),
 	relevance_score INTEGER
 );

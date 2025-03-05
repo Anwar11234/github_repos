@@ -1,0 +1,50 @@
+services:
+  spark:
+    image: bitnami/spark:latest
+    volumes:
+      - ./JDBC_Driver:/Drivers/SQL_Sever/jdbc
+  jupyter:
+    image: jupyter/pyspark-notebook
+    container_name: jupyter
+    ports:
+      - "8085:8888"
+    networks:
+      - github-repos-net
+    volumes:
+      - ./notebooks:/home/jovyan/work/notebooks/
+      - ./data:/home/jovyan/work/data/
+      - ./JDBC_Driver:/Drivers/SQL_Sever/jdbc
+
+  postgres:
+    image: postgres:latest
+    container_name: my-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: github_repo
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - github-repos-net
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: my-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    volumes:
+    - ./pgadmin_data:/var/lib/pgadmin
+    networks:
+      - github-repos-net
+    depends_on:
+      - postgres
+
+volumes:
+  postgres-data:
+networks:
+  github-repos-net:
